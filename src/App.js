@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import TodoInput from './component/Todoinput';
+import Todoinput from './component/Todoinput';
 import Todolist from './component/Todolist'; 
-
-
-
-
 
 
 class App extends Component {
@@ -14,21 +10,36 @@ class App extends Component {
     constructor(props){
       super(props);
       this.state = {
-        items: {},
+        items: [],
         id: uuidv4(),
-        item: '',
+        item: "",
         editItem: false
       }
     }
 
     handleChange = e => {
-      console.log('this is handle change')
+      this.setState({
+       item: e.target.value
+      })
     }
     handleSubmit = e => {
-      console.log('this is handlesubmit ')
+      const newItem = {
+          id: this.state.id,
+          title: this.state.item 
+      }
+      const updatedItems = {...this.state.items,newItem}
+      this.setState({
+        items: updatedItems,
+        id: uuidv4(),
+        item: "",
+        editItem: false
+      },()=> console.log(this.state))
+     
     }
     handleClear = () =>{
-      console.log('handle clear')
+      this.setState({
+        items: []
+      })
     }
     handleDelete = id => {
       console.log(`this is handling the delete ${id}`)
@@ -37,6 +48,7 @@ class App extends Component {
       console.log(`this is handling the edit ${id}`)
     }
   render(){
+    console.log(this.state)
     return (
       <div className='container'>
         <div className= 'row'>
@@ -44,17 +56,18 @@ class App extends Component {
             <h3 className='text-center'>What's on your mind</h3>
           </div>
           <div className='container'>
-          <TodoInput 
+          <Todoinput 
           item={this.state.item}
-          handleChange={this.state.handleChange}
-          handleSubmit={this.state.handleSubmit}
-          handleEdit={this.state.handleEdit}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          editItem={this.state.editItem}
            />
           
           <Todolist 
           items={this.state.items}
           clear={this.state.handleClear}
           handleDelete={this.state.handleDelete}
+          handleEdit={this.state.handleEdit}
           /> 
         </div>
         </div>
