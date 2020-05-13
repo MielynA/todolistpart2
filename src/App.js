@@ -28,7 +28,7 @@ class App extends Component {
           id: this.state.id,
           title: this.state.item 
       }
-      const updatedItems = [...this.state.items,newItem];
+      const updatedItems = [...this.state.items, newItem];
 
       this.setState({
         items: updatedItems,
@@ -62,10 +62,6 @@ class App extends Component {
           item={this.state.item}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-<<<<<<< HEAD
-          editItem={this.editItem}
-=======
->>>>>>> todos
            />
           
           <Todolist 
