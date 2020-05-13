@@ -23,17 +23,19 @@ class App extends Component {
       })
     }
     handleSubmit = e => {
+      e.preventDefault();
       const newItem = {
           id: this.state.id,
           title: this.state.item 
       }
-      const updatedItems = {...this.state.items,newItem}
+      const updatedItems = [...this.state.items,newItem];
+
       this.setState({
         items: updatedItems,
         id: uuidv4(),
         item: "",
         editItem: false
-      },()=> console.log(this.state))
+      })
      
     }
     handleClear = () =>{
@@ -60,7 +62,6 @@ class App extends Component {
           item={this.state.item}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          editItem={this.editItem}
            />
           
           <Todolist 
