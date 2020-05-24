@@ -23,12 +23,12 @@ class App extends Component {
       })
     }
     handleSubmit = e => {
-      e.preventDefault();
+      e.preventDefault(e);
       const newItem = {
           id: this.state.id,
           title: this.state.item 
       }
-      const updatedItems = [...this.state.items,newItem];
+      const updatedItems = [...this.state.items, newItem];
 
       this.setState({
         items: updatedItems,
@@ -44,33 +44,40 @@ class App extends Component {
       })
     }
     handleDelete = id => {
-      console.log(`this is handling the delete ${id}`)
+     const deletedItem = this.state.items.filter(item => item.id !== id);
+     this.setState({
+      items: deletedItem
+    })
     }
+
     handleEdit = id => {
-      console.log(`this is handling the edit ${id}`)
+      const filteredItem = this.state.items.filter(item => item.id !== id);
+      const chosenItem = this.state.items.find(item => item.id === id); 
+      this.setState({
+        items: filteredItem,
+        item: chosenItem.title,
+        id: id,
+        editItem: true
+      })
     }
   render(){
-    console.log(this.state)
     return (
       <div className='container'>
         <div className= 'row'>
-          <div className= 'col-12 col-md-8 col-mt-5'>
-            <h3 className='text-center'>What's on your mind</h3>
+          <div className= 'col-10 mx-auto col-md-8 mt-5'>
+            <h3 className='text-center'>Simple To do list</h3>
           </div>
           <div className='container'>
           <Todoinput 
           item={this.state.item}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-<<<<<<< HEAD
-          editItem={this.editItem}
-=======
->>>>>>> todos
+          editItem={this.state.editItem}
            />
           
           <Todolist 
           items={this.state.items}
-          clear={this.handleClear}
+          handleClear={this.handleClear}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
           /> 

@@ -4,14 +4,12 @@ import Todoitem from './Todoitem';
 
 export default class Todolist extends Component { 
     render(){
-        const {items, clear, handleDelete, handleEdit} = this.props
-        console.log(items)
+        const {items, handleClear, handleDelete, handleEdit} = this.props
         return(
             <ul className='list-group my-5'>
-            <h3 className='text-center'>Todolist</h3>
+            <h3 className='text-center mb-4'>Current list</h3>
             {
                 items.map(item => {
-                    console.log('this',items)
                     return(
                         <Todoitem
                             key={item.id}
@@ -25,9 +23,9 @@ export default class Todolist extends Component {
             <button
               type='button'
               className='btn btn-danger mt-5'
-              onClick={clear}
+              onClick={handleClear}
               >
-               Clear   
+               Clear All  
               </button>
             </ul>
         );
