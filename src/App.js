@@ -17,6 +17,20 @@ class App extends Component {
       }
     }
 
+    componentWillMount() {
+      // load items array from localStorage, set in state
+      let itemsList = localStorage.getItem('items')
+      if (itemsList) {
+        this.setState({
+          items: JSON.parse(localStorage.getItem('items'))
+        })
+      }
+    }
+    componentDidUpdate() {
+      // on each update, sync our state with localStorage
+      localStorage.setItem('items', JSON.stringify(this.state.items))
+    }
+    
     handleChange = e => {
       this.setState({
        item: e.target.value
@@ -29,7 +43,6 @@ class App extends Component {
           title: this.state.item 
       }
       const updatedItems = [...this.state.items, newItem];
-
       this.setState({
         items: updatedItems,
         id: uuidv4(),

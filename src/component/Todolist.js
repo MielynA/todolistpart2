@@ -5,9 +5,13 @@ import Todoitem from './Todoitem';
 export default class Todolist extends Component { 
     render(){
         const {items, handleClear, handleDelete, handleEdit} = this.props
+       if(items === null ){
+           return <h3 className='text-center mb-4'>Current list</h3>
+           }
+    
         return(
             <ul className='list-group my-5'>
-            <h3 className='text-center mb-4'>Current list</h3>
+            <h3 className='text-center mb-4'>Current lists</h3>
             {
                 items.map(item => {
                     return(
@@ -20,6 +24,7 @@ export default class Todolist extends Component {
                     );
                 })
             }
+            <div className='row justify-content-center'>
             <button
               type='button'
               className='btn btn-danger mt-5'
@@ -27,6 +32,8 @@ export default class Todolist extends Component {
               >
                Clear All  
               </button>
+            </div>
+            
             </ul>
         );
     }
