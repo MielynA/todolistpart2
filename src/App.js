@@ -12,8 +12,9 @@ class App extends Component {
       this.state = {
         items: [],
         id: uuidv4(),
-        item: "",
-        editItem: false
+        item: '',
+        editItem: false,
+        error: '',
       }
     }
 
@@ -30,14 +31,37 @@ class App extends Component {
       // on each update, sync our state with localStorage
       localStorage.setItem('items', JSON.stringify(this.state.items))
     }
-    
+
     handleChange = e => {
       this.setState({
-       item: e.target.value
+         item: e.target.value
       })
     }
+
+    handleAddClick = () => {
+      let error = '';
+      if(!this.state.item){
+        error = 'Field should have value'
+      }
+      if(this.state.item < 3 ){
+        error ='Must be more than 3 characters'
+      }
+      return true; 
+      }
+      handleClear = () =>{
+        this.setState({
+          items: []
+        })
+      }
+
+
     handleSubmit = e => {
-      e.preventDefault(e);
+      e.preventDefault(e)  
+      const isValid = this.handleAddClick();
+      if(isValid){
+        console.log(this.state)
+      }
+      this.setState({...this.state.item})
       const newItem = {
           id: this.state.id,
           title: this.state.item 
@@ -46,16 +70,12 @@ class App extends Component {
       this.setState({
         items: updatedItems,
         id: uuidv4(),
-        item: "",
+        item: '',
         editItem: false
       })
      
     }
-    handleClear = () =>{
-      this.setState({
-        items: []
-      })
-    }
+   
     handleDelete = id => {
      const deletedItem = this.state.items.filter(item => item.id !== id);
      this.setState({
@@ -74,6 +94,8 @@ class App extends Component {
       })
     }
   render(){
+    const {error} = this.state
+    console.log(error, 'error')
     return (
       <div className='container'>
         <div className= 'row'>
@@ -86,13 +108,14 @@ class App extends Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           editItem={this.state.editItem}
+          handleAddClick = {this.handleAddClick}
            />
-          
           <Todolist 
           items={this.state.items}
           handleClear={this.handleClear}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
+  
           /> 
         </div>
         </div>
