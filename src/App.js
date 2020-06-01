@@ -31,7 +31,6 @@ class App extends Component {
       // on each update, sync our state with localStorage
       localStorage.setItem('items', JSON.stringify(this.state.items))
     }
-    
 
     handleChange = e => {
       this.setState({
