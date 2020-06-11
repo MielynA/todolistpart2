@@ -14,7 +14,6 @@ class App extends Component {
         id: uuidv4(),
         item: '',
         editItem: false,
-        error: '',
       }
     }
 
@@ -38,16 +37,6 @@ class App extends Component {
       })
     }
 
-    handleAddClick = () => {
-      let error = '';
-      if(!this.state.item){
-        error = 'Field should have value'
-      }
-      if(this.state.item < 3 ){
-        error ='Must be more than 3 characters'
-      }
-      return true; 
-      }
       handleClear = () =>{
         this.setState({
           items: []
@@ -57,10 +46,7 @@ class App extends Component {
 
     handleSubmit = e => {
       e.preventDefault(e)  
-      const isValid = this.handleAddClick();
-      if(isValid){
-        console.log(this.state)
-      }
+
       this.setState({...this.state.item})
       const newItem = {
           id: this.state.id,
