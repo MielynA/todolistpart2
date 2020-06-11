@@ -10,8 +10,10 @@ export default class Todoinput extends Component {
     }
  
     render() {
+
         const { item, handleChange, handleSubmit } = this.props
        if(item){
+
         return (
 
             <div className='card card-body my-3'>
@@ -28,6 +30,7 @@ export default class Todoinput extends Component {
                             value={item}
                             onChange={handleChange}
                         ></input>
+
                     </div>
                 </form>
             </div>

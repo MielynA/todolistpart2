@@ -42,10 +42,11 @@ class App extends Component {
           items: []
         })
       }
-  
+
 
     handleSubmit = e => {
       e.preventDefault(e)  
+
       this.setState({...this.state.item})
       const newItem = {
           id: this.state.id,
@@ -79,6 +80,8 @@ class App extends Component {
       })
     }
   render(){
+    const {error} = this.state
+    console.log(error, 'error')
     return (
       <div className='container'>
         <div className= 'row'>
@@ -91,6 +94,7 @@ class App extends Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           editItem={this.state.editItem}
+          handleAddClick = {this.handleAddClick}
            />
           <Todolist 
           items={this.state.items}
