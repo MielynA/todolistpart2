@@ -1,67 +1,41 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
 
+const TodoInput = ({ item, handleChange, handleSubmit }) => {
+  const [showError, setShowError] = useState(false);
 
-export default class Todoinput extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: 'Inputs cannot be empty',
-        }
-    }
- 
-    render() {
+  const handleInputChange = (e) => {
+    handleChange(e);
 
-        const { item, handleChange, handleSubmit } = this.props
-       if(item){
+    setShowError(e.target.value.trim() === "");
+  };
 
-        return (
+  return (
+    <div className="card card-body my-3">
+      <form onSubmit={handleSubmit}>
+        <div className="input-group">
+          <div className="input-group-prepend">
+            <button
+              type="submit"
+              className=" fas fa-pencil-alt"
+              onSubmit={handleSubmit}
+            />
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Add what's on your mind"
+            value={item}
+            onChange={handleInputChange}
+          />
+        </div>
+      </form>
+      {showError && (
+        <div className="alert alert-warning mt-2" role="alert">
+          Inputs cannot be empty
+        </div>
+      )}
+    </div>
+  );
+};
 
-            <div className='card card-body my-3'>
-                <form onSubmit={handleSubmit}>
-                    <div className='input-group'>
-                        <div className='input-group-prepend'>
-                            <button className=' fas fa-pencil-alt' onSubmit={handleSubmit} />
-                        </div>
-
-                        <input
-                            type='text'
-                            className='form-control'
-                            placeholder="Add what's on your mind"
-                            value={item}
-                            onChange={handleChange}
-                        ></input>
-
-                    </div>
-                </form>
-            </div>
-
-        );
-       } else {
-        return (
-
-            <div className='card card-body my-3'>
-                <form >
-                    <div className='input-group'>
-                        <div className='input-group-prepend'>
-                            <button className=' fas fa-pencil-alt'/>
-                        </div>
-
-                        <input
-                            type='text'
-                            className='form-control'
-                            placeholder="Add what's on your mind"
-                            value={item}
-                            onChange={handleChange}>
-                            </input>
-                    </div>
-                    <div className='alert alert-warning' role='alert'>{this.state.error}</div>
-                </form>
-            </div>
-        )
-       }
-           
-        
-
-
-    }
-}
+export default TodoInput;

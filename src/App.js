@@ -1,114 +1,93 @@
-import React, {Component} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import Todoinput from './component/Todoinput';
-import Todolist from './component/Todolist'; 
+import Todoinput from "./component/Todoinput";
+import Todolist from "./component/Todolist";
 
+const App = () => {
+  const [items, setItems] = useState([]);
+  const [id, setId] = useState(uuidv4());
+  const [item, setItem] = useState("");
+  const [editItem, setEditItem] = useState(false);
 
-class App extends Component {
-     
-    constructor(props){
-      super(props);
-      this.state = {
-        items: [],
-        id: uuidv4(),
-        item: '',
-        editItem: false,
-      }
-    }
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
 
-    componentWillMount() {
-      // load items array from localStorage, set in state
-      let itemsList = localStorage.getItem('items')
-      if (itemsList) {
-        this.setState({
-          items: JSON.parse(localStorage.getItem('items'))
-        })
-      }
-    }
-    componentDidUpdate() {
-      // on each update, sync our state with localStorage
-      localStorage.setItem('items', JSON.stringify(this.state.items))
-    }
+  const handleChange = (e) => {
+    setItem(e.target.value);
+  };
 
-    handleChange = e => {
-      this.setState({
-         item: e.target.value
-      })
-    }
+  const handleClear = () => {
+    setItems([]);
+  };
 
-      handleClear = () =>{
-        this.setState({
-          items: []
-        })
-      }
+  const handleSubmit = (e) => {
+    e.preventDefault(e);
 
+    const newItem = {
+      id,
+      title: item,
+      completed: false,
+    };
 
-    handleSubmit = e => {
-      e.preventDefault(e)  
+    const updatedItems = [...items, newItem];
+    setItems(updatedItems);
+    setId(uuidv4());
+    setItem("");
+    setEditItem(false);
+  };
 
-      this.setState({...this.state.item})
-      const newItem = {
-          id: this.state.id,
-          title: this.state.item 
-      }
-      const updatedItems = [...this.state.items, newItem];
-      this.setState({
-        items: updatedItems,
-        id: uuidv4(),
-        item: '',
-        editItem: false
-      })
-     
-    }
-   
-    handleDelete = id => {
-     const deletedItem = this.state.items.filter(item => item.id !== id);
-     this.setState({
-      items: deletedItem
-    })
-    }
+  const handleDelete = (id) => {
+    const deletedItem = items.filter((item) => item.id !== id);
+    setItems(deletedItem);
+  };
 
-    handleEdit = id => {
-      const filteredItem = this.state.items.filter(item => item.id !== id);
-      const chosenItem = this.state.items.find(item => item.id === id); 
-      this.setState({
-        items: filteredItem,
-        item: chosenItem.title,
-        id: id,
-        editItem: true
-      })
-    }
-  render(){
-    const {error} = this.state
-    console.log(error, 'error')
-    return (
-      <div className='container'>
-        <div className= 'row'>
-          <div className= 'col-10 mx-auto col-md-8 mt-5'>
-            <h3 className='text-center'>Simple To do list</h3>
-          </div>
-          <div className='container'>
-          <Todoinput 
-          item={this.state.item}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          editItem={this.state.editItem}
-          handleAddClick = {this.handleAddClick}
-           />
-          <Todolist 
-          items={this.state.items}
-          handleClear={this.handleClear}
-          handleDelete={this.handleDelete}
-          handleEdit={this.handleEdit}
-  
-          /> 
+  // const handleEdit = (id) => {
+  //   const updatedItems = items.map((item) => {
+  //     if (item.id === id) {
+  //       return {
+  //         ...item,
+  //         completed: !item.completed,
+  //       };
+  //     }
+  //     return item;
+  //   });
+  //   setItems(updatedItems);
+  // };
+
+  const handleEdit = (id) => {
+    const filteredItem = items.filter((item) => item.id !== id);
+    const chosenItem = items.find((item) => item.id === id);
+    setItems(filteredItem);
+    setItem(chosenItem.title);
+    setId(id);
+    setEditItem(true);
+  };
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-10 mx-auto col-md-8 mt-5">
+          <h3 className="text-center">Simple To do list</h3>
         </div>
+        <div className="container">
+          <Todoinput
+            item={item}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            editItem={editItem}
+          />
+          <Todolist
+            items={items}
+            handleClear={handleClear}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+          />
         </div>
       </div>
-    );
-  }
-  
-}
+    </div>
+  );
+};
 
 export default App;
