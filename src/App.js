@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-
 import Todoinput from "./component/Todoinput";
 import Todolist from "./component/Todolist";
 
@@ -11,8 +10,19 @@ const App = () => {
   const [editItem, setEditItem] = useState(false);
 
   useEffect(() => {
+    const savedItems = localStorage.getItem("items");
+    if (savedItems) {
+      setItems(JSON.parse(savedItems));
+    }
+  }, []);
+
+  useEffect(() => {
+    
     localStorage.setItem("items", JSON.stringify(items));
+
   }, [items]);
+
+
 
   const handleChange = (e) => {
     setItem(e.target.value);
@@ -42,6 +52,19 @@ const App = () => {
     const deletedItem = items.filter((item) => item.id !== id);
     setItems(deletedItem);
   };
+console.log(items)
+  const toggleComplete = (id) => {
+      const updatedItems = items.map((item)=> {
+        if(item.id === id) {
+          return {
+            ...item,
+            completed: !item.completed
+          }
+        }
+  return item
+      })
+      setItems(updatedItems)
+  }
 
   // const handleEdit = (id) => {
   //   const updatedItems = items.map((item) => {
@@ -55,6 +78,7 @@ const App = () => {
   //   });
   //   setItems(updatedItems);
   // };
+
 
   const handleEdit = (id) => {
     const filteredItem = items.filter((item) => item.id !== id);
@@ -71,6 +95,9 @@ const App = () => {
         <div className="col-10 mx-auto col-md-8 mt-5">
           <h3 className="text-center">Simple To do list</h3>
         </div>
+        <h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
         <div className="container">
           <Todoinput
             item={item}
@@ -83,6 +110,7 @@ const App = () => {
             handleClear={handleClear}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            toggleComplete={toggleComplete}
           />
         </div>
       </div>
