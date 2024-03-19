@@ -17,11 +17,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    
     localStorage.setItem("items", JSON.stringify(items));
-
   }, [items]);
-
 
 
   const handleChange = (e) => {
@@ -36,9 +33,10 @@ const App = () => {
     e.preventDefault(e);
 
     const newItem = {
-      id,
+      id: uuidv4(),
       title: item,
       completed: false,
+      created: new Date().toLocaleString()
     };
 
     const updatedItems = [...items, newItem];
@@ -52,7 +50,7 @@ const App = () => {
     const deletedItem = items.filter((item) => item.id !== id);
     setItems(deletedItem);
   };
-console.log(items)
+
   const toggleComplete = (id) => {
       const updatedItems = items.map((item)=> {
         if(item.id === id) {
@@ -66,18 +64,6 @@ console.log(items)
       setItems(updatedItems)
   }
 
-  // const handleEdit = (id) => {
-  //   const updatedItems = items.map((item) => {
-  //     if (item.id === id) {
-  //       return {
-  //         ...item,
-  //         completed: !item.completed,
-  //       };
-  //     }
-  //     return item;
-  //   });
-  //   setItems(updatedItems);
-  // };
 
 
   const handleEdit = (id) => {

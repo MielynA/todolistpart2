@@ -15,6 +15,7 @@ const TodoList = ({ items, handleClear, handleDelete, handleEdit , toggleComplet
             handleDelete={() => handleDelete(item.id)}
             handleEdit={() => handleEdit(item.id)}
             completed={item.completed}
+            handleDate={item.created}
             toggleComplete={ () => toggleComplete(item.id)}
           />
         );
