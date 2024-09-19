@@ -7,6 +7,7 @@ const TodoInput = ({ item, handleChange, handleSubmit }) => {
     handleChange(e);
 
     setShowError(e.target.value.trim() === "");
+    console.log("set show error", setShowError);
   };
 
   return (

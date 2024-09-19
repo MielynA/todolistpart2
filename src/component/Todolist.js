@@ -1,11 +1,15 @@
 import React from "react";
 import Todoitem from "./Todoitem";
 
-const TodoList = ({ items, handleClear, handleDelete, handleEdit , toggleComplete , completed}) => {
+const TodoList = ({
+  items,
+  handleClear,
+  handleDelete,
+  handleEdit,
+  toggleComplete,
+}) => {
   return (
-    <ul className="list-group my-5">
-      <h3 className="text-center mb-4">Current list</h3>
-
+    <div className="my-5 flex flex-col justify-center items-center">
       {items.map((item) => {
         return (
           <Todoitem
@@ -16,20 +20,19 @@ const TodoList = ({ items, handleClear, handleDelete, handleEdit , toggleComplet
             handleEdit={() => handleEdit(item.id)}
             completed={item.completed}
             handleDate={item.created}
-            toggleComplete={ () => toggleComplete(item.id)}
+            toggleComplete={() => toggleComplete(item.id)}
           />
         );
       })}
-      <div className="row justify-content-center">
+      <div className="w-full flex justify-center mt-5 blue">
         <button
-          type="button"
-          className="btn btn-danger mt-5"
+          className="bg-red py-2 px-4 rounded hover:bg-red"
           onClick={handleClear}
         >
           Clear All
         </button>
       </div>
-    </ul>
+    </div>
   );
 };
 

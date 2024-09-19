@@ -20,7 +20,6 @@ const App = () => {
     localStorage.setItem("items", JSON.stringify(items));
   }, [items]);
 
-
   const handleChange = (e) => {
     setItem(e.target.value);
   };
@@ -36,7 +35,7 @@ const App = () => {
       id: uuidv4(),
       title: item,
       completed: false,
-      created: new Date().toLocaleString()
+      created: new Date().toLocaleString(),
     };
 
     const updatedItems = [...items, newItem];
@@ -52,19 +51,17 @@ const App = () => {
   };
 
   const toggleComplete = (id) => {
-      const updatedItems = items.map((item)=> {
-        if(item.id === id) {
-          return {
-            ...item,
-            completed: !item.completed
-          }
-        }
-  return item
-      })
-      setItems(updatedItems)
-  }
-
-
+    const updatedItems = items.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completed: !item.completed,
+        };
+      }
+      return item;
+    });
+    setItems(updatedItems);
+  };
 
   const handleEdit = (id) => {
     const filteredItem = items.filter((item) => item.id !== id);
@@ -76,29 +73,22 @@ const App = () => {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-10 mx-auto col-md-8 mt-5">
-          <h3 className="text-center">Simple To do list</h3>
-        </div>
-        <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-        <div className="container">
-          <Todoinput
-            item={item}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            editItem={editItem}
-          />
-          <Todolist
-            items={items}
-            handleClear={handleClear}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit}
-            toggleComplete={toggleComplete}
-          />
-        </div>
+    <div className="container mx-auto mt-5 px-4 bg-blue">
+      <h3 className="text-center">Simple todo list</h3>
+      <div className="container mx-auto bg-blue">
+        <Todoinput
+          item={item}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          editItem={editItem}
+        />
+        <Todolist
+          items={items}
+          handleClear={handleClear}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          toggleComplete={toggleComplete}
+        />
       </div>
     </div>
   );
