@@ -38,7 +38,13 @@ const App = () => {
       created: new Date().toLocaleString(),
     };
 
-    const updatedItems = [...items, newItem];
+    let updatedItems;
+    if (editItem) {
+      updatedItems = [newItem, ...items];
+    } else {
+      updatedItems = [newItem, ...items];
+    }
+
     setItems(updatedItems);
     setId(uuidv4());
     setItem("");
